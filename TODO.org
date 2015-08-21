@@ -1,0 +1,17 @@
+SFML test program
+
+* Roadmap
+
+** Initial tests [0/5]
+   - [ ] basic sprites with animations
+   - [ ] simple scene management
+   - [ ] input handling
+   - [ ] scrolling and parallax scrolling
+   - [ ] simple game to test concepts
+
+** Basic high level framework [0/5]
+   - [ ] improved scene management
+   - [ ] basic collisions, explore advanced collision models
+   - [ ] basic physics, see available frameworks
+   - [ ] sfx and music
+   - [ ] improve example game or build more complex example mini games
