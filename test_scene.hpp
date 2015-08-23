@@ -1,6 +1,7 @@
 #ifndef TEST_SCENE_HPP
 #define TEST_SCENE_HPP
 
+#include <tmx/MapLoader.h>
 #include "scene.hpp"
 
 class TestScene : public Scene {
@@ -14,6 +15,7 @@ public:
 
 protected:
   sf::CircleShape m_shape;
+  tmx::MapLoader m_map_loader;
 };
 
 #endif
