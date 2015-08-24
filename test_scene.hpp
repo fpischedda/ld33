@@ -15,6 +15,7 @@ public:
 
 protected:
   sf::CircleShape m_shape;
+  sf::View m_map_view;
   tmx::MapLoader m_map_loader;
 };
 

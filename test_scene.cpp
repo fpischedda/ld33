@@ -3,7 +3,10 @@
 #include <tmx/Log.h>
 #include "test_scene.hpp"
 
-TestScene::TestScene() : m_shape(100.f), m_map_loader("res/maps/") {
+TestScene::TestScene() : m_shape(100.f),
+			 m_map_loader("res/maps/"),
+			 m_map_view(sf::FloatRect(0, 0, 640, 480))
+{
   m_shape.setFillColor(sf::Color::Green);
 
   tmx::Logger::SetLogLevel(tmx::Logger::Info | tmx::Logger::Warning | tmx::Logger::Error);
@@ -20,12 +23,15 @@ TestScene::~TestScene(){
 
 void TestScene::on_update(const sf::Time &dt){
 
+  m_shape.move( 25.f * dt.asSeconds(), 0.f);
+  m_map_view.setCenter( m_shape.getPosition());
 }
 
 void TestScene::on_draw(sf::RenderWindow &window){
 
   window.clear();
-  window.draw(m_shape);
+  window.setView(m_map_view);
   window.draw(m_map_loader);
+  window.draw(m_shape);
   window.display();
 }
