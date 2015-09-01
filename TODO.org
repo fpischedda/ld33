@@ -2,12 +2,13 @@ SFML test program
 
 * Roadmap
 
-** Initial tests [0/5]
+** Initial tests [2/6]
    - [ ] basic sprites with animations
-   - [ ] simple scene management
+   - [X] simple scene management
    - [ ] input handling
    - [ ] scrolling and parallax scrolling
    - [ ] simple game to test concepts
+   - [X] basic tilemap loading and rendering
 
 ** Basic high level framework [0/5]
    - [ ] improved scene management
