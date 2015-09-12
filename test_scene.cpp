@@ -3,7 +3,7 @@
 #include <tmx/Log.h>
 #include "test_scene.hpp"
 
-KeyMap TestScene::s_interested_keys = {
+KeyList TestScene::s_interested_keys = {
   sf::Keyboard::Left, sf::Keyboard::Right,
   sf::Keyboard::Up, sf::Keyboard::Down
 };
@@ -11,6 +11,7 @@ KeyMap TestScene::s_interested_keys = {
 TestScene::TestScene() :
   InputManager(TestScene::s_interested_keys),
   m_shape(100.f),
+  m_direction(0.f),
   m_map_loader("res/maps/"),
   m_map_view(sf::FloatRect(0, 0, 640, 480))
 {
@@ -30,7 +31,7 @@ TestScene::~TestScene(){
 
 void TestScene::on_update(const sf::Time &dt){
 
-  m_shape.move( 25.f * dt.asSeconds(), 0.f);
+  m_shape.move( 25.f * m_direction * dt.asSeconds(), 0.f);
   m_map_view.setCenter( m_shape.getPosition());
 }
 
@@ -41,4 +42,14 @@ void TestScene::on_draw(sf::RenderWindow &window){
   window.draw(m_map_loader);
   window.draw(m_shape);
   window.display();
+}
+
+void TestScene::on_key_press(const sf::Keyboard::Key key) {
+
+  m_direction = 1.f;
+}
+
+void TestScene::on_key_release(const sf::Keyboard::Key key) {
+
+  m_direction = 0.f;
 }

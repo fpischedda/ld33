@@ -12,6 +12,7 @@ sf::Time Director::restart_clock(){
 Scene* Director::set_scene(Scene *scene){
   Scene *old_scene = m_current_scene;
   m_current_scene = scene;
+  m_current_input_manager = scene->get_input_manager();
   
   return old_scene;
 }
@@ -51,4 +52,21 @@ void Director::draw(sf::RenderWindow &window){
   if(m_current_scene != NULL){
     m_current_scene->on_draw(window);
   }
+}
+
+
+bool Director::key_pressed(sf::Keyboard::Key key){
+
+  if(m_current_input_manager != NULL){
+    return m_current_input_manager->key_pressed(key);
+  }
+  return false;
+}
+
+bool Director::key_released(sf::Keyboard::Key key){
+
+  if(m_current_input_manager != NULL){
+    return m_current_input_manager->key_released(key);
+  }
+  return false;
 }

@@ -3,7 +3,6 @@
 
 #include <tmx/MapLoader.h>
 #include "scene.hpp"
-#include "input_manager.hpp"
 
 class TestScene : public Scene, public InputManager {
 
@@ -13,12 +12,17 @@ public:
 
   virtual void on_update(const sf::Time &dt);
   virtual void on_draw(sf::RenderWindow &window);
+  virtual InputManager* get_input_manager(){ return this; }
+  
+  virtual void on_key_press(const sf::Keyboard::Key key);
+  virtual void on_key_release(const sf::Keyboard::Key key);
 
 protected:
   sf::CircleShape m_shape;
+  float m_direction;
   sf::View m_map_view;
   tmx::MapLoader m_map_loader;
-  static KeyMap s_interested_keys;
+  static KeyList s_interested_keys;
 };
 
 #endif

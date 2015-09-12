@@ -2,22 +2,28 @@
 #define INPUT_MANAGER_HPP
 
 #include <vector>
+#include <map>
 #include <SFML/Window/Keyboard.hpp>
 
-typedef std::vector<sf::Keyboard::Key> KeyMap;
+typedef std::map<sf::Keyboard::Key, unsigned int> KeyMap;
+typedef std::vector<sf::Keyboard::Key> KeyList;
 
 class InputManager {
 
-private:
-  unsigned int m_key_status;
-  KeyMap m_key_map;
-
 public:
-  InputManager(const KeyMap& key_map);
+  InputManager(const KeyList& key_list);
   virtual ~InputManager();
 
-  virtual bool on_key_press(sf::Keyboard::Key key);
-  virtual bool on_key_release(sf::Keyboard::Key key);
+  bool key_pressed(sf::Keyboard::Key key);
+  bool key_released(sf::Keyboard::Key key);
+  
+  virtual void on_key_press(const sf::Keyboard::Key key);
+  virtual void on_key_release(const sf::Keyboard::Key key);
+
+private:
+  unsigned int m_key_status;
+  KeyList m_key_list;
+  KeyMap m_key_map;
 };
 
 #endif

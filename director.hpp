@@ -18,10 +18,14 @@ public:
   void update();
   void draw(sf::RenderWindow &window);
 
+  bool key_pressed(sf::Keyboard::Key key);
+  bool key_released(sf::Keyboard::Key key);
+
 protected:
   std::vector<Scene*> m_scene_stack;
   Scene* m_current_scene;
   sf::Clock m_clock;
+  InputManager* m_current_input_manager;
 };
 
 #endif
