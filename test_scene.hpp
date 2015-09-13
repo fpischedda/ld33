@@ -19,7 +19,8 @@ public:
 
 protected:
   sf::CircleShape m_shape;
-  float m_direction;
+  float m_velocity;
+  sf::Vector2<float> m_direction;
   sf::View m_map_view;
   tmx::MapLoader m_map_loader;
   static KeyList s_interested_keys;
