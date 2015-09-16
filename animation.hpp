@@ -1,5 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
+// Copyright (C) 2015 Francesco Pischedda (francesco.pischedda@google.com)
+// Based on the previous work of
 // Copyright (C) 2014 Maximilian Wagenbach (aka. Foaly) (foaly.f@web.de)
 //
 // This software is provided 'as-is', without any express or implied warranty.
@@ -21,27 +23,36 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef ANIMATION_INCLUDE
-#define ANIMATION_INCLUDE
+#ifndef ANIMATION_HPP
+#define ANIMATION_HPP
 
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+struct FrameInfo {
+
+  sf::Vector2f tex_coords[4];
+  sf::Vector2f frame_size[4];
+  sf::FloatRect local_bounds;
+};
+
 class Animation
 {
 public:
-    Animation();
+  Animation(const sf::Texture* tex=NULL);
 
-    void addFrame(sf::IntRect rect);
-    void setSpriteSheet(const sf::Texture& texture);
-    const sf::Texture* getSpriteSheet() const;
-    std::size_t getSize() const;
-    const sf::IntRect& getFrame(std::size_t n) const;
+  template <typename T>
+  void addFrameRect(const sf::Rect<T> rect);
+  void addFrame(const std::vector<sf::Vector2f>& points);
+  void setSpriteSheet(const sf::Texture& texture);
+  const sf::Texture* getSpriteSheet() const;
+  std::size_t getSize() const;
+  const FrameInfo& getFrame(std::size_t n) const;
 
 private:
-    std::vector<sf::IntRect> m_frames;
-    const sf::Texture* m_texture;
+  std::vector<FrameInfo> m_frames;
+  const sf::Texture* m_texture;
 };
 
 #endif // ANIMATION_INCLUDE

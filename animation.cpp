@@ -21,16 +21,67 @@
 //
 ////////////////////////////////////////////////////////////
 
+#include <cmath>
 #include "animation.hpp"
 
-Animation::Animation() : m_texture(NULL)
+template <typename T>
+const T vector_length(const sf::Vector2<T>& v){
+
+  return static_cast<T>(std::fabs(sqrt(v.x*v.x + v.y*v.y)));
+}
+
+Animation::Animation(const sf::Texture* tex) : m_texture(tex)
 {
 
 }
 
-void Animation::addFrame(sf::IntRect rect)
+template <typename T>
+void Animation::addFrameRect(sf::Rect<T> rect)
 {
-    m_frames.push_back(rect);
+  auto right = rect.left + rect.width;
+  auto bottom = rect.top + rect.height;
+  
+  FrameInfo frame = {
+    {
+      sf::Vector2f(0, 0),
+      sf::Vector2f(0, rect.height),
+      sf::Vector2f(rect.width, rect.height),
+      sf::Vector2f(rect.width, 0),
+    },
+    {
+      sf::Vector2f(rect.left, rect.top),
+      sf::Vector2f(rect.left, bottom),
+      sf::Vector2f(right, bottom),
+      sf::Vector2f(right, rect.top),
+    },
+    {0, 0, static_cast<float>(rect.width), static_cast<float>(rect.height) }
+  };
+  
+  m_frames.push_back(frame);
+}
+
+void Animation::addFrame(const std::vector<sf::Vector2f>& points){
+
+  auto width = vector_length(points[0] - points[1]);
+  auto height = vector_length(points[0] - points[2]);
+  
+  FrameInfo frame = {
+    {
+      sf::Vector2f(0, 0),
+      sf::Vector2f(0, height),
+      sf::Vector2f(width, height),
+      sf::Vector2f(width, 0),
+    },
+    {
+      points[0],
+      points[1],
+      points[2],
+      points[3],
+    },
+    {0, 0, width, height }
+  };
+  
+  m_frames.push_back(frame);
 }
 
 void Animation::setSpriteSheet(const sf::Texture& texture)
@@ -48,7 +99,7 @@ std::size_t Animation::getSize() const
     return m_frames.size();
 }
 
-const sf::IntRect& Animation::getFrame(std::size_t n) const
+const FrameInfo& Animation::getFrame(std::size_t n) const
 {
     return m_frames[n];
 }

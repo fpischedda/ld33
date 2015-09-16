@@ -87,12 +87,9 @@ const Animation* AnimatedSprite::getAnimation() const
 
 sf::FloatRect AnimatedSprite::getLocalBounds() const
 {
-    sf::IntRect rect = m_animation->getFrame(m_currentFrame);
+    auto frame = m_animation->getFrame(m_currentFrame);
 
-    float width = static_cast<float>(std::abs(rect.width));
-    float height = static_cast<float>(std::abs(rect.height));
-
-    return sf::FloatRect(0.f, 0.f, width, height);
+    return frame.local_bounds;
 }
 
 sf::FloatRect AnimatedSprite::getGlobalBounds() const
@@ -120,22 +117,17 @@ void AnimatedSprite::setFrame(std::size_t newFrame, bool resetTime)
     if (m_animation)
     {
         //calculate new vertex positions and texture coordiantes
-        sf::IntRect rect = m_animation->getFrame(newFrame);
+        auto frame = m_animation->getFrame(newFrame);
 
-        m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-        m_vertices[1].position = sf::Vector2f(0.f, static_cast<float>(rect.height));
-        m_vertices[2].position = sf::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height));
-        m_vertices[3].position = sf::Vector2f(static_cast<float>(rect.width), 0.f);
-
-        float left = static_cast<float>(rect.left) + 0.0001f;
-        float right = left + static_cast<float>(rect.width);
-        float top = static_cast<float>(rect.top);
-        float bottom = top + static_cast<float>(rect.height);
-
-        m_vertices[0].texCoords = sf::Vector2f(left, top);
-        m_vertices[1].texCoords = sf::Vector2f(left, bottom);
-        m_vertices[2].texCoords = sf::Vector2f(right, bottom);
-        m_vertices[3].texCoords = sf::Vector2f(right, top);
+        m_vertices[0].position = frame.frame_size[0];
+        m_vertices[1].position = frame.frame_size[1];
+        m_vertices[2].position = frame.frame_size[2];
+        m_vertices[3].position = frame.frame_size[3];
+	
+        m_vertices[0].texCoords = frame.tex_coords[0];
+        m_vertices[1].texCoords = frame.tex_coords[1];
+        m_vertices[2].texCoords = frame.tex_coords[2];
+        m_vertices[3].texCoords = frame.tex_coords[3];
     }
 
     if (resetTime)
